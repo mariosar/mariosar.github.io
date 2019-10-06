@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/assets/js/semantic-ui/sidebar.js"></script>
+    <script type="text/javascript" src="/assets/js/semantic-ui/modal.js"></script>
+    <script type="text/javascript" src="/assets/js/semantic-ui/dimmer.js"></script>
+    <script type="text/javascript" src="/assets/js/semantic-ui/transition.js"></script>
+  </head>
+  <body>
+      {% include sidebar.html %}
+
+    <div class="pusher">
+      <div class="ui inverted center aligned segment moving-bg">
+        {% include navigation.html %}
+      </div>
+
+      <div class="section">
+        <div class="ui container portfolio">
+          <a href="/" class="muted"><i class="chevron left icon"></i> Projects</a>
+          <h1 class="ui header huge">{{ page.title }}</h1>
+          <div class="ui stackable grid">
+            <div class="eight wide computer sixteen mobile column">
+              {% for item in page.description %}
+                <p>{{ item }}</p>
+              {% endfor %}
+            </div>
+            <div class="eight wide computer sixteen mobile column features">
+              <h2 class="ui header uppercase">Features / Highlights</h2>
+              <div class="ui list">
+                {% for item in page.features %}
+                  <div class="item">
+                    <i class="check icon"></i>
+                    <div class="content">{{ item }}</div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="ui stackable grid">
+            {% for item in page.media %}
+              <div class="eight wide computer sixteen mobile column">
+                {% if item.type == "image" %}
+                  <div class="image">
+                    <img src="{{ item.url }}" />
+                  </div>
+                {% else %}
+                  <video class="image" width="300" height="200" autoplay="autoplay" loop>
+                    <source src="{{ item.url }}" type="video/mp4" />
+                  </video>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+  
+      {% include footer.html %}
+    </div>
+
+    <div class="ui modal small contact">
+      <i class="grey close icon"></i>
+      <div class="header" style="text-transform: uppercase;">
+        Contact Me
+      </div>
+      <div class="content">
+        <div class="description">
+          <div id="contact-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/assets/js/moving_bg.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/assets/js/general.js" chartset="utf-8"></script>
+    <script type="text/javascript" src="/assets/js/bundle.js" charset="utf-8"></script>
+  </body>
+</html>
+
+

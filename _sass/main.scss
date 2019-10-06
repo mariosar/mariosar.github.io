@@ -1,0 +1,109 @@
+@import 'stylesheets/semantic-ui.scss';
+
+$backgroundColor: #ffffff;
+$bodyColor: #000000;
+$bodyFont: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+
+// body {
+//   background: $backgroundColor;
+//   color: $bodyColor;
+//   font-family: $bodyFont;
+// }
+
+.ui.header{
+  color: rgba(28, 25, 30, 0.74);
+}
+.ui.header.huge{
+  font-size: 3em;
+}
+
+.container.masthead{
+  padding-right: 0em;
+  padding-left: 0em;
+  margin-top: 13rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container.masthead h1{
+  font-size: 3em;
+  color: #fff;
+}
+
+.secondary.menu .toc.item {
+  display: none !important;
+}
+.item.tagline{
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.portfolio{
+  img{
+    width: 100%;
+    display: block;
+  }
+
+  video{
+    width: 100%;
+    display: block;
+    height: auto;
+  }
+  
+  p, .item{
+    font-size: 1.33em;
+  }
+
+  .row{
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+
+  .column .image{
+    max-height: 600px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px 0 rgba(57, 19, 98, 0.44);
+    border-radius: 5px;
+
+    &:hover{
+      box-shadow: 0 5px 20px 5px rgba(57, 19, 98, 0.44);
+    }
+  }
+
+  .features i.icon{
+    color: #6435C9;
+  }
+
+  .ui.header.uppercase{
+    text-transform: uppercase;
+  }
+  a.muted{
+    color: rgba(0, 0, 0, 0.87);
+  }
+}
+
+.section{
+  margin-top: 6em;
+  margin-bottom: 6em;
+}
+
+.ui.form textarea:focus, .ui.form input:not([type]):focus, .ui.form input[type="date"]:focus, .ui.form input[type="datetime-local"]:focus, .ui.form input[type="email"]:focus, .ui.form input[type="number"]:focus, .ui.form input[type="password"]:focus, .ui.form input[type="search"]:focus, .ui.form input[type="tel"]:focus, .ui.form input[type="time"]:focus, .ui.form input[type="text"]:focus, .ui.form input[type="file"]:focus, .ui.form input[type="url"]:focus{
+  border-color: #6a5ac9;
+}
+label .muted{
+  display: inline;
+  font-weight: normal;
+}
+
+@media only screen and (max-width: 700px) {
+  .portfolio .column .image{
+    max-height: 230px;
+  }
+  .secondary.menu .item {
+    display: none!important;
+  }
+  .secondary.menu .toc.item {
+    display: block!important;
+  }
+}
+
