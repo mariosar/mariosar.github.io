@@ -142,7 +142,7 @@ var pongModule = (function(){
     
     createBall: function(direction){
     	var self = this;
-      $ball = new Ball(600, direction, 40);
+      $ball = new Ball(500, direction, 40);
       
       $ball[0].setAttribute('style', "left: "+(direction == "left" ? (self.$board.bounds['width'] - 15 - 120) : 120)+"px")
 
