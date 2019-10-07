@@ -108,18 +108,26 @@ var pongModule = (function(){
   return {
   	$board: undefined,
     players: [],
+    $intervalId: undefined,
   
   	init: function(){
     	var self = this;
-      lastCollisionSurface = undefined;
     	this.createBoard();
-      this.createBall();
-      this.moveBall($ball.getTrajectory());
-      window.setInterval(function(){
-      	self.checkCollision();
-      }, 15);
+      this.createBall(["left", "right"][Math.round(Math.random()*1)]);
       window.setInterval(function(){
       	self.movePaddles();
+      }, 15);
+      
+      self.startRound()
+    },
+
+    startRound: function(){
+      var self = this;
+      lastCollisionSurface = undefined;
+      this.moveBall($ball.getTrajectory());
+      self.$intervalId = window.setInterval(function(){
+        self.checkCollision();
+        self.checkScoredPoint();
       }, 15);
     },
     
@@ -128,18 +136,22 @@ var pongModule = (function(){
       $.extend(this.$board, {
       	player_1: this.createPaddle('left'),
         player_2: this.createPaddle('right'),
+        score: [0, 0]
       });
     },
     
-    createBall: function(){
+    createBall: function(direction){
     	var self = this;
-    	$ball = new Ball(600, 'right', 45);
+      $ball = new Ball(600, direction, 40);
+      
+      $ball[0].setAttribute('style', "left: "+(direction == "left" ? (self.$board.bounds['width'] - 15 - 120) : 120)+"px")
+
       $.extend($ball, {
       	getTrajectory: function(){
         	var bounds = this[0].getBoundingClientRect();
           var direction = this.direction;
           var adjacent = Math.abs(self.$board.bounds[direction] - bounds[direction]) + 8000;
-          var opposite = (Math.tan(Math.abs(this.angle)) * adjacent);
+          var opposite = (Math.tan(Math.abs(this.angle) * Math.PI / 180) * adjacent);
           var x = (this.direction === 'right') ? (bounds.right + adjacent) : (bounds.left - adjacent);
           var y = (this.angle >= 0) ? (bounds.top + opposite) : (bounds.bottom - opposite);
           var distance = Math.sqrt(Math.pow(adjacent, 2) + Math.pow(opposite, 2));
@@ -169,6 +181,8 @@ var pongModule = (function(){
       var $paddle = new Paddle(this.$board, which, controls, css);
       
       this.players.push($paddle);
+
+      return $paddle;
     },
     
     moveBall: function(trajectory){
@@ -212,6 +226,38 @@ var pongModule = (function(){
         }
       });
     },
+
+    checkScoredPoint: function(){
+      var self = this;
+      var ballBoundary = $ball[0].getBoundingClientRect();
+      var ballDirection = $ball.direction
+
+      if(ballDirection == 'left' &&
+        ballBoundary[ballDirection] + ballBoundary['width'] < self.$board.bounds[ballDirection]
+      ){
+        console.log('player 2 scored')
+        clearInterval(self.$intervalId)
+
+        $ball.stop();
+        self.$board.score[1]++
+        
+        self.$board[0].getElementsByClassName('ball')[0].remove()
+        self.createBall("right")
+        self.startRound()
+      } else if(ballDirection == 'right' &&
+        ballBoundary[ballDirection] - ballBoundary['width'] > self.$board.bounds[ballDirection]
+      ) {
+        console.log('player 1 scored')
+        clearInterval(self.$intervalId)
+
+        $ball.stop();
+        self.$board.score[0]++
+        
+        self.$board[0].getElementsByClassName('ball')[0].remove()
+        self.createBall("left")
+        self.startRound()
+      }
+    }
   }
 })();
 pongModule.init();
