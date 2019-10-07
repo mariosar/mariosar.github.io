@@ -2,13 +2,14 @@
 layout: project
 title: "Room Anywhere"
 description: [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit quis felis venenatis tristique semper vitae nunc. Morbi interdum sagittis aliquet. Vestibulum id tincidunt ante. Vestibulum non porttitor turpis. Nullam malesuada libero ut dictum mattis. Fusce nisi ante, tristique et elementum tincidunt, tristique quis eros. Proin pulvinar dui eget lacus sodales commodo.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit quis felis venenatis tristique semper vitae nunc. Morbi interdum sagittis aliquet. Vestibulum id tincidunt ante. Vestibulum non porttitor turpis. Nullam malesuada libero ut dictum mattis. Fusce nisi ante, tristique et elementum tincidunt, tristique quis eros. Proin pulvinar dui eget lacus sodales commodo."
+  "A roommate finder app.",
+  "The app manages room and user listings. Private two way communication between users. Image uploads to Amazon S3 Bucket. Google Maps api integration.",
 ]
 features: [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "Users can register and login, edit their personal details.",
+  "Users contribute to the website by creating room listings or search listings. Listings can be managed through their dashboard, including uploading photos.",
+  "Private two way communication between users.",
+  "Filter listings by categories, price range, availability, etc."
 ]
 media: [
   {

@@ -2,13 +2,14 @@
 layout: project
 title: "EZ Realty Photo"
 description: [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit quis felis venenatis tristique semper vitae nunc. Morbi interdum sagittis aliquet. Vestibulum id tincidunt ante. Vestibulum non porttitor turpis. Nullam malesuada libero ut dictum mattis. Fusce nisi ante, tristique et elementum tincidunt, tristique quis eros. Proin pulvinar dui eget lacus sodales commodo.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit quis felis venenatis tristique semper vitae nunc. Morbi interdum sagittis aliquet. Vestibulum id tincidunt ante. Vestibulum non porttitor turpis. Nullam malesuada libero ut dictum mattis. Fusce nisi ante, tristique et elementum tincidunt, tristique quis eros. Proin pulvinar dui eget lacus sodales commodo."
+  "A website and app for booking Real Estate Photography photo and video service.",
+  "Admin can create new photo packages to display on the website. Customers complete the order process through a multi-step order form. Customers can track their order via their dashboard and download their photo packages when they're ready."
 ]
 features: [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "Admin interface can create / edit service packages for sale.",
+  "Browse users, orders, and monitor status of scheduled shoots.",
+  "Users can edit their profile, payment info, and browse their purchased photography packages and download their pictures.",
+  "Integration with Stripe.js for payment processing"
 ]
 media: [
   {
