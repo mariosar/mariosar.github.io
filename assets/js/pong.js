@@ -1,5 +1,6 @@
 var pongModule = (function(){
-	var $ball;
+  var $ball;
+  var $scoreboard;
   var lastCollisionSurface;
   
   //BOARD CONSTRUCTOR
@@ -89,6 +90,33 @@ var pongModule = (function(){
         break;
     }
   }
+
+  function Scoreboard(initialScore){
+    $.extend(this, $("<div>", {class: "scoreboard"}));
+    this.score = initialScore;
+    this.player_1_score = $("<div class='score' id='player_1_score'></div>");
+    this.player_2_score = $("<div class='score' id='player_2_score'></div>");
+    this.append(this.player_1_score, this.player_2_score)
+    this.render()
+  }
+  Scoreboard.prototype.retrieveScore = function(){
+    return this.score;
+  }
+  Scoreboard.prototype.addPoint = function(player){
+    if(player == 'player_1'){
+      this.score[0]++
+      console.log('player 1 scored')
+      this.render()
+    } else if (player == "player_2"){
+      this.score[1]++
+      console.log('player 2 scored')
+      this.render()
+    }
+  }
+  Scoreboard.prototype.render = function(){
+    this.player_1_score.text(this.score[0])
+    this.player_2_score.text(this.score[1])
+  }
   
   function checkPaddleHitBall(paddle, ball){
   	var ballBoundary = ball[0].getBoundingClientRect();
@@ -136,7 +164,7 @@ var pongModule = (function(){
       $.extend(this.$board, {
       	player_1: this.createPaddle('left'),
         player_2: this.createPaddle('right'),
-        score: [0, 0]
+        scoreboard: this.createScoreboard([0, 0])
       });
     },
     
@@ -183,6 +211,14 @@ var pongModule = (function(){
       this.players.push($paddle);
 
       return $paddle;
+    },
+
+    createScoreboard: function(initialScore){
+      $scoreboard = new Scoreboard(initialScore);
+
+      this.$board.append($scoreboard)
+
+      return $scoreboard;
     },
     
     moveBall: function(trajectory){
@@ -235,11 +271,10 @@ var pongModule = (function(){
       if(ballDirection == 'left' &&
         ballBoundary[ballDirection] + ballBoundary['width'] < self.$board.bounds[ballDirection]
       ){
-        console.log('player 2 scored')
         clearInterval(self.$intervalId)
 
         $ball.stop();
-        self.$board.score[1]++
+        $scoreboard.addPoint('player_2');
         
         self.$board[0].getElementsByClassName('ball')[0].remove()
         self.createBall("right")
@@ -247,11 +282,10 @@ var pongModule = (function(){
       } else if(ballDirection == 'right' &&
         ballBoundary[ballDirection] - ballBoundary['width'] > self.$board.bounds[ballDirection]
       ) {
-        console.log('player 1 scored')
         clearInterval(self.$intervalId)
 
         $ball.stop();
-        self.$board.score[0]++
+        $scoreboard.addPoint('player_1');
         
         self.$board[0].getElementsByClassName('ball')[0].remove()
         self.createBall("left")
