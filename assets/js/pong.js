@@ -13,6 +13,7 @@ var pongModule = (function(){
       }));
     boardConfig.container.append(this);
     this.bounds = this[0].getBoundingClientRect();
+    this.append("<div class='instructions left'>Player 1 controls: W + S</div><div class='instructions right'>Player 2 Controls: &#8593; + &#8595;</div>")
   }
   
   // PADDLE CONSTRUCTOR
@@ -134,17 +135,28 @@ var pongModule = (function(){
   }
   
   return {
-  	$board: undefined,
+    $board: undefined,
+    $paused: false,
     players: [],
     $intervalId: undefined,
+    $paddleIntervalId: undefined,
   
   	init: function(){
     	var self = this;
     	this.createBoard();
       this.createBall(["left", "right"][Math.round(Math.random()*1)]);
-      window.setInterval(function(){
-      	self.movePaddles();
-      }, 15);
+      this.enablePaddleMovement();
+     
+      $(document).keyup(function(e){
+        if(e.keyCode == 32){
+          self.$paused = !self.$paused
+          self.pauseGameHandler()
+        }
+      });
+      $(window).blur(function(){
+        self.$paused = true
+        self.pauseGameHandler()
+      });
       
       self.startRound()
     },
@@ -158,6 +170,26 @@ var pongModule = (function(){
         self.checkScoredPoint();
       }, 15);
     },
+
+    enablePaddleMovement: function(){
+      var self = this;
+      self.$paddleIntervalId = window.setInterval(function(){
+      	self.movePaddles();
+      }, 15);
+    },
+
+    pauseGameHandler: function(){
+      var self = this;
+      if(self.$paused){
+        $ball.stop()
+        clearInterval(this.$paddleIntervalId)
+        $(".board").addClass('paused')
+      } else {
+        self.moveBall($ball.getTrajectory());
+        self.enablePaddleMovement();
+        $(".board").removeClass('paused')
+      }
+    },
     
     createBoard: function(){
     	this.$board = new Board();
@@ -170,7 +202,7 @@ var pongModule = (function(){
     
     createBall: function(direction){
     	var self = this;
-      $ball = new Ball(500, direction, 40);
+      $ball = new Ball(600, direction, 35);
       
       $ball[0].setAttribute('style', "left: "+(direction == "left" ? (self.$board.bounds['width'] - 15 - 120) : 120)+"px")
 
@@ -178,7 +210,7 @@ var pongModule = (function(){
       	getTrajectory: function(){
         	var bounds = this[0].getBoundingClientRect();
           var direction = this.direction;
-          var adjacent = Math.abs(self.$board.bounds[direction] - bounds[direction]) + 8000;
+          var adjacent = Math.abs(self.$board.bounds[direction] - bounds[direction]) + 10000;
           var opposite = (Math.tan(Math.abs(this.angle) * Math.PI / 180) * adjacent);
           var x = (this.direction === 'right') ? (bounds.right + adjacent) : (bounds.left - adjacent);
           var y = (this.angle >= 0) ? (bounds.top + opposite) : (bounds.bottom - opposite);
