@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ContactForm from '../src/contact_form'
 
-import movingBG from '../../background-styler/index';
+// import movingBG from '../../background-styler/index';
+import movingBG from 'background-styler';
 
 movingBG({
   start: [

@@ -1756,9 +1756,9 @@ babylon@^6.18.0:
   integrity sha512-q/UEjfGJ2Cm3oKV71DJz9d25TPnq5rhBVL2Q4fA5wcC3jcrdn7+SssEybFIxwAvvP+YCsCYNKughoF33GxgycQ==
 
 background-styler@^1.0.1:
-  version "1.0.135"
-  resolved "https://registry.yarnpkg.com/background-styler/-/background-styler-1.0.135.tgz#4ecb973aeb8c08a8acb8054e59b559bcec8db76c"
-  integrity sha512-Dg1Mf1G32utTRTKLlLYha0uTKUf95Oj1T0LcDoaNOsnbuASZ1B+FOHMd/W7CM/CDY0Ifry3u/I1K8eIpKCzVRg==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/background-styler/-/background-styler-1.0.2.tgz#9476207d7b5a40c543c28c8fd9e4d41b829b7024"
+  integrity sha512-UFzALJyu6g/BFB4abU0jdm+0njF23gfZ7hojnGXMVJ2+LTIbsfoKQ41ZCF/3KQBQtLpe4WIC13LskiSeEsGlAA==
 
 balanced-match@^1.0.0:
   version "1.0.0"
