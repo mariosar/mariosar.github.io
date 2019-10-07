@@ -7,10 +7,8 @@ import movingBG from 'background-styler';
 
 movingBG({
   start: [
-    // [80, 20, 155],
-    // [35, 5, 92]
-    [74, 48, 20],
-    [55, 20, 108]   
+    [80, 20, 155],
+    [35, 5, 92]
   ],
   end: [
     [60, 30, 100],
