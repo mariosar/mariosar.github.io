@@ -35,7 +35,7 @@ class ContactForm extends React.Component{
                 <div className="item"><i className="violet help icon"></i> need help with a project?</div>
                 <div className="item"><i className="violet help icon"></i> or want to hire me?</div>
               </div>
-              <p>Please drop me a message using the form, or email me at <b>hello@mariosaraiva.com</b>. <em>Thanks</em>!</p>
+              <p>Please drop me a message using the form. <em>Thanks</em>!</p>
               <div className="field">
                 <label>Name</label>
                 <div className="two fields">
