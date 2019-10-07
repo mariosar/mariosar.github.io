@@ -27,6 +27,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^3.1.2",
+    "background-styler": "^1.0.1",
     "final-form": "^4.18.5",
     "react": "^16.10.2",
     "react-addons-update": "^15.6.2",
