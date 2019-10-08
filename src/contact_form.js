@@ -32,10 +32,10 @@ class ContactForm extends React.Component{
     $.ajax({
       type: "POST",
       contentType: "application/json",
-      url: "https://briskforms.com/go/ed221bbbe35ee96b9ecfa92bca1189a7",
+      url: "https://www.elformo.com/forms/8911f42f-1bd1-4af7-8357-222404c25c95",
       data: values,
       dataType: 'json',
-      crossDomain: true,
+      crossOrigin: true,
       success: function(data, textStatus, jqXHR){
         console.log(data)
         console.log(textStatus)
@@ -44,7 +44,7 @@ class ContactForm extends React.Component{
         console.log(textStatus)
         console.log(errorThrown)
       },
-  });
+    });
   }
 
   render(){
