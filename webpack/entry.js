@@ -19,3 +19,38 @@ movingBG({
 }).run()
 
 ReactDOM.render(<ContactForm />, document.getElementById('contact-form'));
+
+class SuccessMessage extends React.Component{
+  constructor(props){
+    super(props)
+
+    this.state = {
+      visible: true
+    }
+  }
+
+  componentDidMount(){
+    const that = this
+    window.setTimeout(() => {
+      that.setState({
+        visible: false
+      })
+    }, 5000)
+  }
+  
+  render(){
+    return(
+      <div>
+        {this.state.visible &&
+          <div className="ui container success-message">
+            Message Sent!
+          </div>
+        }
+      </div>
+    )
+  }
+}
+
+if (window.location.search.indexOf('form_submit=true') > -1) {
+  ReactDOM.render(<SuccessMessage />, document.getElementById('contact-success'));
+}

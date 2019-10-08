@@ -1,5 +1,4 @@
 import React from "react";
-import Axios from "axios";
 import { Form, Field } from 'react-final-form'
 
 const regexTestEmail = (email) => {
@@ -17,34 +16,24 @@ class ContactForm extends React.Component{
     super(props)
   }
   
-  handleSubmit(values){
-    // Axios.post(, values, {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   }
-    // })
-    // .then((response) => {
-    //   console.log(response)
-    // })
-    // .catch((error) => {
-    //   console.log(error)
-    // })
-    $.ajax({
-      type: "POST",
-      contentType: "application/json",
-      url: "https://briskforms.com/go/ed221bbbe35ee96b9ecfa92bca1189a7",
-      data: values,
-      dataType: 'jsonp',
-      crossOrigin: true,
-      success: function(data, textStatus, jqXHR){
-        console.log(data)
-        console.log(textStatus)
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-        console.log(textStatus)
-        console.log(errorThrown)
-      },
-    });
+  handleSubmit(values, form){
+    var form = document.createElement("form")
+    form.action = "https://briskforms.com/go/49765f2aadab8905e27bc4517f4f5ebd"
+    form.method = "POST"
+
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) {
+        const hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = key;
+        hiddenField.value = values[key];
+  
+        form.appendChild(hiddenField);
+      }
+    }
+
+    document.body.appendChild(form);
+    form.submit()
   }
 
   render(){
