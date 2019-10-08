@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import { Form, Field } from 'react-final-form'
 
 const regexTestEmail = (email) => {
@@ -16,8 +17,34 @@ class ContactForm extends React.Component{
     super(props)
   }
   
-  handleSubmit(){
-    console.log("Submitting")
+  handleSubmit(values){
+    // Axios.post(, values, {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   }
+    // })
+    // .then((response) => {
+    //   console.log(response)
+    // })
+    // .catch((error) => {
+    //   console.log(error)
+    // })
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "https://briskforms.com/go/ed221bbbe35ee96b9ecfa92bca1189a7",
+      data: values,
+      dataType: 'json',
+      crossDomain: true,
+      success: function(data, textStatus, jqXHR){
+        console.log(data)
+        console.log(textStatus)
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log(textStatus)
+        console.log(errorThrown)
+      },
+  });
   }
 
   render(){
