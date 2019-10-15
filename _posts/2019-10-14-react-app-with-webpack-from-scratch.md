@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Webpack and React - How to"
-category: 'Webpack / React'
+category: "React"
 description: "Create a React App with Webpack from Scratch"
 image: react.jpeg
 ---
