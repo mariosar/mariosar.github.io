@@ -16,7 +16,7 @@ Here I will attempt to record some of my learnings and hopefully it will serve u
       <div class="content">
         <div class="header">{{ post.title }}</div>
         <div class="meta">
-          <span class="category">Rails</span>
+          <span class="category">{{ post.category }}</span>
         </div>
         <div class="description">
           {{ post.description }}
