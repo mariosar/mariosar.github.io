@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Happy Jekylling!"
+title: "Blog"
 ---
 
 <h1 class="ui header">Blog Posts</h1>

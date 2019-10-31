@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Ansible + Initial Server Setup"
+title: "Ansible Basics - Initial Server Setup"
 category: 'Ansible'
-description: "Using Ansible to automate initial server setup on a remote server"
+description: "Using Ansible to automate initial server setup on a remote server."
 image: ansible.jpg
 ---
 

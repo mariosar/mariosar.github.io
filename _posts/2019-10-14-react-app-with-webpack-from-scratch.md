@@ -2,15 +2,15 @@
 layout: post
 title: "Webpack and React - How to"
 category: "React"
-description: "Create a React App with Webpack from Scratch"
+description: "Create a React App with Webpack from Scratch."
 image: react.jpeg
 ---
 
-# REACT APP EXAMPLE
+# REACT APP Tutorial
 
-A React app created without create-react-app that will be used to communicate with my [Rails Api](https://github.com/mariosar/api_example/)
+A React app created without create-react-app. This tutorial will take you through creating your own webpack.config.js to manage webpack, using loaders to transform ES6 and JSX syntax during bundling, 
 
-## Steps to reproduce project
+## Getting Started
 
 ```
 mkdir react_app_example && cd $_
@@ -40,7 +40,7 @@ git commmit -m "init"
 mkdir -p src/public && touch src/index.js src/index.css src/public/index.html
 ```
 ```
-# index.html
+# src/public/index.html
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,47 +74,51 @@ ReactDOM.render(<App />, document.getElementById('app'))
 We're using JSX syntax, ES6 Syntax. None of this is understood by the browser... yet. We'll use Webpack to bundle our JS. Webpack has a powerful ability to *transform* resources using loaders. We'll use these loaders to convert our ES6 and ReactJSX syntax into bundles that are understood by the browser.
 
 ## Dev Dependencies
-Add these as dev dependencies... they're dependencies required to *develop* your app or to *build* your bundle.
+Add these as **dev dependencies**... they're dependencies required to *develop* your app or to *build* your bundle.
 ```
 yarn add -D @babel/core @babel/preset-env @babel/preset-react
 yarn add -D webpack webpack-cli webpack-dev-server babel-loader css-loader style-loader html-webpack-plugin
 yarn add -D http-server
 ```
 
-##### Webpack
-> webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in a browser, yet it is also capable of transforming, bundling, or packaging just about any resource or asset [read more](https://github.com/webpack/webpack)
+##### [webpack](https://github.com/webpack/webpack)
+> webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in a browser, yet it is also capable of transforming, bundling, or packaging just about any resource or asset.
 
-##### babel-loader
-> This package allows transpiling JavaScript files using Babel and webpack. [read more](https://webpack.js.org/loaders/babel-loader/)
+##### [babel-loader](https://webpack.js.org/loaders/babel-loader/)
+> This package allows transpiling JavaScript files using Babel and webpack.
 
-##### css-loader
-> Allows you to write import / require() to load css files. [read more](https://github.com/webpack-contrib/css-loader)
+Click [here](https://stackoverflow.com/questions/44931479/compiling-vs-transpiling) for an explanation of what a transpiler is.
 
-##### style-loader
-> Adds CSS to the dom by injecting style tag inside `<head></head>` [read more](https://github.com/webpack-contrib/style-loader)
+##### [css-loader](https://github.com/webpack-contrib/css-loader)
+> Allows you to write import / require() to load css files.
 
-##### clean-webpack-plugin
-> By default, this plugin will remove all files inside webpack's output.path directory, as well as all unused webpack assets after every successful rebuild. [read more](https://github.com/johnagan/clean-webpack-plugin)
+##### [style-loader](https://github.com/webpack-contrib/style-loader)
+> Adds CSS to the dom by injecting style tag inside `<head></head>`
+
+##### [clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)
+> By default, this plugin will remove all files inside webpack's output.path directory, as well as all unused webpack assets after every successful rebuild. 
 
 This is a handy plugin that will tear down `dist` folder on each build. Remember we added `dist` to our `.gitignore`. This folder is built when we transpile and bundle our application using webpack. This plugin will help remove `dist` before a new rebuild of our application - just good house cleaning.
 
-##### html-webpack-plugin
-> This is a webpack plugin that simplifies creation of HTML files to serve your webpack bundles. Useful for webpack bundles that contain hash that changes every compilation. Plugin will generate html file for you and inject bundled js file. [read more](https://github.com/jantimon/html-webpack-plugin)
+##### [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
+> This is a webpack plugin that simplifies creation of HTML files to serve your webpack bundles. Useful for webpack bundles that contain hash that changes every compilation. Plugin will generate html file for you and inject bundled js file.
 
 Our application isn't just serving a bundled JS file, but an html page *with our bundled js* inside of it. When we move to production builds, we'll often fingerprint our bundled JS to let the browser know to grab a fresh copy instead of using a cached version of our application. How terribly sad it would be if every time we had an update to our production application we had to enter the html file and edit the script url - so lame. This plugin solves that.
 
-##### webpack-dev-server
-> Use webpack with a development server that provides live reloading (for development). [read more](https://github.com/webpack/webpack-dev-server)
+##### [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+> Use webpack with a development server that provides live reloading (for development). 
 
-This is our development server. It runs in memory so you won't see the `dist` folder with the bundle. To see the files in development, you'll want to run `webpack` command. This development server creates a socket with the browser and watches our application files. Whenever there is a change, it will refresh our page. Pretty neat.
+This is our development server. It runs in memory so you won't see the `dist` folder at all. To see the files you'll want to run the `webpack` command. This development server further creates a socket with the browser and watches our application files. Whenever there is a change to one of the files, it will re-bundle our application and immediately refresh the page - called *hot reloading*. Pretty neat.
 
-##### http-server
-> `http-server` is a simple, zero-configuration command-line http server. It is powerful enough for production usage, but it's simple and hackable enough to be used for testing, local development, and learning. [read more](https://www.npmjs.com/package/http-server)
+##### [http-server](https://www.npmjs.com/package/http-server)
+> `http-server` is a simple, zero-configuration command-line http server. It is powerful enough for production usage, but it's simple and hackable enough to be used for testing, local development, and learning.
 
-Optionally, we can run `webpack` to build our application and simply run `http-server ./dist`. We may want to run our production build and test it out on our local machine before deployment. http-server is a ready-to-use tool for that.
+Optionally, to view our application in development, we can run `webpack` to build our application bundle and `dist` folder and simply run `http-server ./dist`. For example, we may want to run our production build and test it out on our local machine before deployment. `http-server` is a ready-to-use tool for that.
 
-### Next Steps
-Webpack needs to be told what to do, so we'll create a webpack.config.js file. It does nothing more than export a JS object with some configuration for webpack.
+## Next Steps
+Although we've imported all these *dev dependencies*, we still haven't configured `webpack`.
+
+Webpack needs to be told what to do, so we'll create a `webpack.config.js` file. It does nothing more than export a JS object with some configuration for webpack.
 ```
 touch webpack.config.js
 ```
@@ -179,12 +183,12 @@ In the above config we are telling webpack to use the `babel-loader` on files en
     ]
 },
 
-# webpack.config.js - just after babel-loader
+# webpack.config.js - just after specifying babel-loader (this is what I did above)
 options: {
     presets: ['@babel/preset-env', '@babel/preset-react']
 }
 ```
-Good! now our [transpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) knows our `presets`. You can learn more about cool presets that are out there so you can be on the bleeding edge of all that's happening with JS.
+Good! Now our [transpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) knows our `presets`. You can learn more about cool presets that are out there so you can be on the bleeding edge of all that's happening with JS.
 
 ### Webpack Basics
 
@@ -205,10 +209,9 @@ Our webpack has
 
 ### package.json scripts
 
-While we can write out the command to webpack bundle or run our webpack-dev-server right in the terminal - seriously, what a pain. Let's write them once under "scripts" inside our package.json object and on the command line we'll simply type `yarn` followed by the alias we've defined.
+While we can write out the command to `webpack` bundle or run our `webpack-dev-server` right in the terminal - seriously, what a pain. Let's write them once under "scripts" inside our `package.json` object and on the command line we'll simply type `yarn` followed by the alias we've defined.
 
 Here are some examples you can add there now:
-
 ```
 # package.json
 
@@ -223,42 +226,44 @@ Here are some examples you can add there now:
 }
 ```
 
-Now run `yarn start:dev` and we'll have our application automatically compiled and served by `webpack-dev-server`. Hurray! You'll notice, there may not be a `dist` folder. That's because webpack-dev-server does everything *in memory*. To see the bundle, run `yarn dev`. Then to serve that bundle using `http-server` run `yarn start`.
+Now run `yarn start:dev` and we'll have our application automatically bundled and served by `webpack-dev-server`. Hurray! You'll notice, there may not be a `dist` folder. That's because webpack-dev-server does everything *in memory*. To see the bundle, run `yarn dev`. Then to serve that bundle using `http-server` run `yarn start`.
 
-### Additional Loaders and Dev Dependencies
-#### Sass-Loader
-Likely, we will be using less or sass/scss. We need to add a loader that will check the file extension and transpile into regular old css. `sass-loader` is the solution I've gone with. [read more](https://github.com/webpack-contrib/sass-loader)
+## Additional Loaders and Dev Dependencies
+##### [sass-loader](https://github.com/webpack-contrib/sass-loader)
+Likely, we will be using less or sass/scss. We need to add a loader that will check the file extension and transpile into regular old css. `sass-loader` is the solution I've gone with.
 ```
 yarn add -D sass-loader node-sass
 ```
-#### Images
+#### Images and Assets Loading
 If we plan on importing svg, png, jpeg, fonts, etc... Then we need a loader for that.
 ```
 yarn add -D file-loader url-loader
 ```
-##### Url-Loader
-> will encode files to base64 and include them inline rather than having them loaded as separate files with another request. [read more](https://webpack.js.org/loaders/url-loader/)
+##### [url-loader](https://webpack.js.org/loaders/url-loader/)
+> will encode files to base64 and include them inline rather than having them loaded as separate files with another request.
 
-PRO: Ideal for very small files to decrease the number of requests made to the server fetching resources.
-CON: will increase your bundle size.
+- **PRO**: Ideal for very small files to decrease the number of requests made to the server fetching resources.
+- **CON**: will increase your bundle size.
 
-For small files it totally makes sense. No need to make unnecessary requests to the server if you can just base64 inline the image instead. **NOTE:** Specify the limit in bytes to try and url-load the image, if above this threshold, it will by default fallback to file-loader.
+For small files it totally makes sense. No need to make unnecessary requests to the server if you can just base64 inline the image instead. **NOTE:** Specify the limit in bytes to try and base64 the image; if above this threshold, it will by default fallback to `file-loader`.
 
-##### File-Loader
-> will copy files to the build folder and insert links to them where they are included. [read more](https://github.com/webpack-contrib/file-loader)
+##### [file-loader](https://github.com/webpack-contrib/file-loader)
+> will copy files to the build folder and insert links to them where they are included.
 
-A handy fallback to `url-loader`. It will try to base64 small images, if the image is not small enough for that, it will copy the image over to the output path and generate the correct url path so the image can be included in your app.
+A handy fallback to `url-loader`. It will copy the image over to the output path and generate the correct url path so the image can be included in your app.
 
-#### SourceMap - Not a loader, but a feature of webpack we should enable in development
-When we're running our app and need to do some debugging of styling, it helps to know where in our css and scss files the style rules are from. Source Maps are what provide that in the browser and we can enable them in webpack by adding a `devtool` property inside our webpack.config.js. [read more](https://webpack.js.org/configuration/devtool/) about devtool and source maps.
+##### [DevTool - Source Maps](https://webpack.js.org/configuration/devtool/) 
+Not a loader, but a feature of webpack we should enable in development
+
+When we're running our app and need to do some debugging of styling, it helps to know where in our css and scss files the style rules are from (file and line number). Source Maps are what provide that in the browser and we can enable them in webpack by adding a `devtool` property inside our `webpack.config.js`.
 ```
 # webpack.config.js
 
 devtool: 'eval-source-map',
 ```
-**NOTE:** I've only gotten the source maps to show up on Chrome. Not sure why FF not listing sourceMaps correctly.
+**NOTE:** I've only gotten the source maps to show up on Chrome. Not sure why FF is not listing Source Maps correctly.
 
-### Updated Webpack Config for Sass support, images, source maps
+### Updated Webpack Config for Sass Support, Images, Source Maps
 ```
 # webpack.config.js
 
@@ -347,32 +352,33 @@ module.exports = {
 
 Congratulations! By now you should be able to develop your application. We've setup webpack, several loaders, and plugins. You should have a rudimentary understanding of webpack that hopefully will provide you with a foundation to take the next leap. One lingering question is, how to bundle for production? I personally, like to have my production setup early on so that I can continously ship code. What's the point of learning and developing locally if we can't share our creations in a production environment?
 
-So there are a couple things involved in doing this. First, we need to tell webpack to bundle and transpile our code for production, that means optimizing and minifying it so our bundles *load faster*. It also means *fingerprinting* files so that the browser knows when we've made changes.
+There are a couple things involved in doing this. First, we need to tell webpack to bundle and transpile our code for production, that means optimizing and minifying it so our bundles *load faster*. It also means *fingerprinting* files so that the browser knows when we've made changes.
 
-One solution is to create multiple webpack.config.js files: one for production, one for development. But there is a lot of overlapping configuration that applies to both production and development. A better solution...
+One solution is to create multiple `webpack.config.js` files: one for production, one for development. But the issue with this is there is a lot of overlapping configuration that applies to both production and development. A better solution...
 
-#### webpack-merge
-> webpack-merge provides a merge function that concatenates arrays and merges objects creating a new object. [read more](https://github.com/survivejs/webpack-merge)
+#### [webpack-merge](https://github.com/survivejs/webpack-merge)
+> webpack-merge provides a merge function that concatenates arrays and merges objects creating a new object.
+
 ```
 yarn add -D webpack-merge
 ```
-This handy tool will merge configuration objects to create a new configuration object. Common configuration will be inside of `webpack.common.js` and then we'll create two separate files `webpack.prod.js` and `webpack.dev.js`. Each will require the `webpack.common.js` and use `webpack-merge` to join our common configuration with our configuration specific to that environment.
+This handy tool will merge configuration objects to create a new configuration object. Common configuration will be inside of `webpack.common.js` and we'll create two separate files `webpack.prod.js` and `webpack.dev.js`. Each will require the `webpack.common.js` and use `webpack-merge` to join our common configuration with our configuration specific to that environment.
 
 ### Minification in production
 #### Why minify?
 To convert your code into a smaller form that takes up less bytes and thereby loads faster on the browser.
 
-#### Tools for this job
-##### mini-css-extract-plugin
-> This plugin extracts CSS into separate files. It creates a CSS file per JS file which contains CSS. It supports On-Demand-Loading of CSS and SourceMaps. [read more](https://webpack.js.org/plugins/mini-css-extract-plugin/)
+#### Tools Required
+##### [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/)
+> This plugin extracts CSS into separate files. It creates a CSS file per JS file which contains CSS. It supports On-Demand-Loading of CSS and SourceMaps. 
 
-The benefit off this handy plugin is it creates a separate css file that can be loaded in parallel to the javascript, so is ideal in production. **Note:** Cannot be used with style-loader, which is incompatible.
+The benefit of this handy plugin is it creates a separate css file that can be loaded in parallel to the bundled JS, so is ideal in production. **Note:** Cannot be used with style-loader, which is incompatible.
 
-##### optimize-css-assets-webpack-plugin
-> A Webpack plugin to optimize \ minimize CSS assets. [read more](https://github.com/NMFR/optimize-css-assets-webpack-plugin)
+##### [optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin)
+> A Webpack plugin to optimize \ minimize CSS assets. 
 
-##### terser-webpack-plugin
-UglifyJS is a popular older minifier, but today, the new kid on the block is terser - an actively maintained fork of Uglify-es. Webpack in *production mode* minifies using terser by default. Webpack includes the plugin behind the scenes if you only add the `-p` flag to the webpack command. Including the plugin manually, however, you can configure it how you like. Plus it's more explicit knowing what exactly you are doing. [read more](https://www.npmjs.com/package/terser-webpack-plugin)
+##### [terser-webpack-plugin](https://www.npmjs.com/package/terser-webpack-plugin)
+UglifyJS is a popular older minifier, but today, the new kid on the block is terser - an actively maintained fork of Uglify-es. Webpack in *production mode* minifies using terser by default. Webpack includes the plugin behind the scenes if you only add the `-p` flag to the webpack command. Including the plugin manually, however, you can configure it how you like. Plus it's more explicit knowing what exactly you are doing.
 
 ```
 yarn add -D terser-webpack-plugin optimize-css-assets-webpack-plugin mini-css-extract-plugin
@@ -381,18 +387,18 @@ yarn add -D terser-webpack-plugin optimize-css-assets-webpack-plugin mini-css-ex
 ### Webpack Mode
 We haven't talked about webpack *mode* much, but here is the gist of it. Development tells webpack to run our application with `NODE_ENV` set to development, enables debugging, devtools (source maps). Production sets `NODE_ENV` to production and runs some handy defaults for optimizing for production environments, like minifying your JS. In the command line you can add these flags:
 
--d shortcut for --debug --devtool eval-cheap-module-source-map --output-pathinfo
--p shortcut for --optimize-minimize --define process.env.NODE_ENV="production"
+- `-d` shortcut for `--debug --devtool eval-cheap-module-source-map --output-pathinfo`
+- `-p` shortcut for `--optimize-minimize --define process.env.NODE_ENV="production"`
 
 ***NOTE:***
---optimize-minimize will include TerserPlugin behind the scenes. 
---define process.env.NODE_ENV="'production'" will do the same for the DefinePlugin.
+`--optimize-minimize` will include TerserPlugin behind the scenes. 
+`--define process.env.NODE_ENV="'production'"` will do the same for the DefinePlugin.
 
-***One important caveat that confuses many:*** -p sets the NODE_ENV *inside* your application, but not inside your webpack.config.js. Therefore you cannot use conditionals inside your config like process.env.NODE_ENV === 'production' because they will not work. [see](https://github.com/webpack/webpack/issues/2537)
+***One important caveat that confuses many:*** -p sets the NODE_ENV *inside* your application, but not inside your `webpack.config.js`. Therefore, you cannot use conditionals inside your config like `process.env.NODE_ENV === 'production'` because they will not work. [see](https://github.com/webpack/webpack/issues/2537)
 
 Use webpack [environment variables](https://webpack.js.org/guides/environment-variables/) instead.
 
-### Updated webpack config files and package.json 'scripts'
+### Updated Webpack Config Files and package.json 'scripts'
 ```
 # webpack.prod.js
 
@@ -547,10 +553,9 @@ const path = require('path');
 const port = process.env.PORT || 8080;
 const app = express();
 
-// the __dirname is the current directory from where the script is running
 app.use(express.static(__dirname + '/dist'));
 
-// send the user to index html page inspite of the url
+// always send requests to index.html file
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'index.html'));
 });
@@ -559,11 +564,11 @@ app.listen(port);
 ```
 
 ## Deployment to Heroku
-Heroku is great! There is a free tier that allows you to test out deployment. Go ahead and [create](https://signup.heroku.com/) an account there.
+Heroku is great! There is a free tier that allows you to test out deployment. Go ahead and [create](https://signup.heroku.com/) an account if you don't already have one.
 
 Follow these basic commands and they should be enough to have your app up and running in a production environment in the cloud:
 
-##### Add heroku-postbuild command to your 'scripts' inside package.json
+#### Add heroku-postbuild command to your 'scripts' inside package.json
 ```
 # package.json
 {
@@ -574,11 +579,11 @@ Follow these basic commands and they should be enough to have your app up and ru
   }
 }
 ```
-##### Install Heroku CLI
+#### Install Heroku CLI
 ```
 curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 ```
-##### Create Heroku application and commit your code to heroku repository
+#### Create Heroku application and commit your code to heroku repository
 ```
 heroku login
 heroku create
@@ -587,6 +592,10 @@ git commit -m "Deployment of app"
 git push heroku master
 ```
 
-## Summary
-We've used webpack with several loaders and plugins. We've shown you how to write the webpack config file needed to inform webpack how to transpile and bundle. We've shown you how to use webpack environment variables for conditionals inside of webpack config files. We've discussed how to make a production build of our application. I hope you've enjoyed this basic tutorial and this code is useful to you. Thank you.
+Heroku is smart enough to know what type of application you are running and will download dependencies. The `heroku-postbuild` is a command heroku will run after downloading your dependencies and setting up your environment and server.
+
+# Summary
+We've used webpack with several loaders and plugins. We've shown you how to write the webpack config file needed to inform webpack how to transpile and bundle. We've shown you how to use webpack environment variables for conditionals inside of webpack config files. We've discussed how to make a production build of our application. 
+
+I hope you've enjoyed this basic tutorial and this code is useful to you. Thank you.
 

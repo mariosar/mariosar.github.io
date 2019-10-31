@@ -2,7 +2,7 @@
 layout: post
 title: "Rails API - How to"
 category: 'Rails'
-description: "Build a basic api using Rails 5"
+description: "Build a basic api using Rails 5."
 image: rails_api.webp
 ---
 
