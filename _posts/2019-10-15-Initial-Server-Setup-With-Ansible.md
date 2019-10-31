@@ -8,13 +8,13 @@ image: ansible.jpg
 
 # Ansible Playbook Basics
 
-This is a basic tutorial on automating server configuration with Ansible. We will be creating a sudo user with password and changing the root user password. These are typically things you would do on a fresh ubuntu server installation and are an easy way to show the power of Ansible.
+This is a basic tutorial on automating server configuration with Ansible. We will be creating a sudo user with password and changing the root user password. These are typically things you might do on a fresh ubuntu server installation and are an easy way to show the power of Ansible.
 
 I'll be introducing terminology as we dive in instead of making a long introduction. Hopefully, as you follow along, everything will make sense to you, but if you feel lost, take a look at some of the [introductory tutorials](https://docs.ansible.com/ansible/latest/user_guide/index.html) from the Ansible website. They're helpful and cover the foundations.
 
 This tutorial also assumes you have already installed Ansible on your machine.
 
-# Getting started with ansible
+# Getting Started with Ansible
 
 We'll create a directory to house our Ansible `playbook` setup. Create this directory now and cd into it. I will call mine `ansible-initial-server-setup`.
 ```
@@ -45,9 +45,9 @@ dbservers
 ```
 This file contains six different hosts. We have created a group called `webservers` with three hosts and `dbservers` with three hosts. 
 
-We have another group that is a **grouping of groups** labeled `all_servers`. In it we are referencing `webservers` and `dbservers`.
+We have another group that is a **grouping of groups** called `all_servers`. In it we are referencing `webservers` and `dbservers`.
 
-The whole point of grouping is to have an alias to reference certain hosts when we're ready to execute commands. Easy as that. 
+The whole point of grouping is to have an alias to reference a collection of hosts when we're ready to execute commands. Easy as that. 
 
 ## Creating Our First Playbook
 
@@ -55,11 +55,11 @@ Now that we have defined *what* we want to act upon, the next step is to draft o
 
 ### What is a *Playbook*?
 
-A [playbook](https://docs.ansible.com/ansible/latest/user_guide/playbooks.html) takes its name from a football playbook, where a professional football team keeps diagrams of their plays. Each individual play is a drawing or schematic depicting where players should be. 
+A [playbook](https://docs.ansible.com/ansible/latest/user_guide/playbooks.html) takes its name from a football playbook, where a professional football team might keep diagrams of their plays. Each individual play is a drawing or schematic depicting where players should be. 
 
 A collection of **plays make a playbook**, and a collection of **tasks make a play**. 
 
-A **task** is a single instruction of what needs to be performed on the host(s) - we use [Ansible modules](https://docs.ansible.com/ansible/latest/user_guide/modules.html) to perform tasks.
+A **task** is a single instruction of what needs to be performed on the host(s) - we use Ansible [modules](https://docs.ansible.com/ansible/latest/user_guide/modules.html) to perform tasks.
 
 Playbooks are written in [YAML](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html). Here is a quick example:
 ```
@@ -92,7 +92,7 @@ Just below that, we've specified the `remote_user`, which is the user that we'd 
 
 Oftentimes, when we connect to a server as a particular user, we need a way of ***escalting privileges***, in order to perform certain tasks. We can immediately tell Ansible to escalate privileges on our target by providing `become: yes`.
 
-There are many ways to escalate privileges - for the the whole play, for specific tasks in the play - and Ansible provides this flexibility. For more on [privilege escalation](https://docs.ansible.com/ansible/latest/user_guide/become.html) click on the link.
+There are many ways to escalate privileges - for the the whole play, for specific tasks in a play - and Ansible provides this flexibility. Click [here](https://docs.ansible.com/ansible/latest/user_guide/become.html) for more on privilege escalation.
 
 For all intents and purposes, adding `become: yes` is telling Ansible that for the remainder of the play, we would like to execute the commands with `sudo` privileges.
 
@@ -123,15 +123,15 @@ Our playbook contains two `tasks` we've listed.
         name: root
         password: {% raw %}"{{ root_password | password_hash('sha512', sha512_secret_salt) }}"{% endraw %}
 ```
-Each task item in `tasks` starts with a `-`. We've named each task, as you can see, with roughly a description on what the task will be accomplishing.
+Each task in `tasks` starts with a `-`. We've named each task, as you can see, with roughly a description on what the task will be accomplishing.
 
-Both of these tasks are using the Ansible `user` module, which is for managing user accounts. The module takes some parameters which we've indented inside with their respectivea values. Not all module parameters are required - for the `user` module we are only required to provide a `name` for the user.
+Both of these tasks are using the Ansible `user` module, which is for managing user accounts. The module takes some parameters which we've indented inside with their respective values. Not all module parameters are required - for the `user` module we are only required to provide a `name` for the user - but providing additional parameters modify the behavior of the module and its interaction with the server.
 
 If you read the parameters in the module now, you should be able to guess what the module is doing.
 
 Here is what we are accomplishing with these two tasks:
-- **First task**: Find or create the user 'bob'. Set his shell to /bin/bash and add him to the sudo group. Set his password to the one provided.
-- **Second task**: Change the root password to the one provided.
+- **First Task**: Find or create the user 'bob'. Set his shell to /bin/bash and add him to the sudo group. Set his password to the one provided.
+- **Second Task**: Change the root password to the one provided.
 
 See! Ansible and playbooks should be easy to read and understand. We used the Ansible [user](https://docs.ansible.com/ansible/latest/modules/user_module.html) module here. The best way to learn is to visit the documentation and take a look at some of the available parameters and examples provided.
 
@@ -141,13 +141,13 @@ Before moving on, we should talk about an important concept in Ansible... ***Ide
 
 Modules should be idempotent, which is just a fancy word to say, ***"running our module once should produce the same result as running it additional times."*** This makes it safe to re-run your module multiple times (which will happen) because there is no danger that the second time you run the same task it will produce different or unexpected results, leading to inconsistency in our system. We're always trying to achieve the ***same consistent result***, whether we're running our play once, twice, or several times.
 
-If each task achieves a result, than a good check before executing a module is to ask, ***"has the result of this module been achieved?"*** If yes, then continue because there is nothing to be done, if not, then execute the module and give me the desired result. Ansible modules are pretty smart and will do this automatically.
+If each task achieves a result, then a good check before executing a module is to ask, ***"has the result of this module been achieved?"*** If yes, then continue because there is nothing to be done, if not, then execute the module and give me the desired result. Ansible modules are pretty smart and will do this automatically.
 
 ### Variables / group_vars / host_vars
 
 You may wonder, **"what is that inside the quotes in the password argument?"** Ansible provides the ability to use variables and inject them throughout your playbook.
 
-In the example, we're injecting variables "**sudo_password**", "**root_password**", and "**sha512_secret_salt**". Obviously, we don't want our passwords hardcoded into the playbook for many reasons, including if we were to share the play with other users or commit it to a repository to be re-used in a different context.
+In the example, we're injecting variables **sudo_password**, **root_password**, and **sha512_secret_salt**. Obviously, we don't want our passwords hardcoded into the playbook for many reasons, including if we were to share the play with other users or commit it to a repository to be re-used in a different context.
 
 *Back to our example...*
 ```
@@ -183,7 +183,8 @@ We'll use `ansible-vault` to encrypt our sensitive data. It's a handy utility pr
 
 ```
 touch group_vars/all/vault
-
+```
+```
 # group_vars/all/vault
 vault_sudo_password: secretpass
 vault_root_password: rootpass
@@ -195,7 +196,7 @@ sudo_password: {% raw %}"{{ vault_sudo_password }}"{% endraw %}
 root_password: {% raw %}"{{ vault_root_password }}"{% endraw %}
 sha512_secret_salt: {% raw %}"{{ vault_sha512_secret_salt }}"{% endraw %}
 ```
-**NOTE:** I have preceded the variable names in the `vault` file with `vault_`. Then I am injecting the protected value into the `vars` file where they need to go.
+**NOTE:** I have preceded the variable names in the `vault` file with `vault_`. Then I am injecting the protected values into the `vars` file where they need to go.
 
 Finally, to encrypt the `vault` file:
 ```
@@ -209,10 +210,11 @@ ansible-vault view file_name # VIEW
 ansible-vault edit file_name # EDIT
 ansible-vault create file_name # CREATE NEW
 ```
-Hopefully by know you got the gist of injecting variables inside our playbooks, creating a group vars file for all groups, and creating an encrypted vault. Good!
+Hopefully by now you got the gist of injecting variables inside our playbooks, creating a vars file inside group_vars directory, and creating an encrypted vault. Good!
 
 ## Running our Playbook
 
+Finally the long awaited step!
 ```
 ansible-playbook -i inventory initial-server-setup --ask-become-pass --ask-vault-pass
 ```
@@ -220,11 +222,13 @@ We tell Ansible to run our playbook using the `ansible-playbook` command, specif
 
 There are a couple additional options included here that need explaining...
 
-`--ask-become-pass` : this option will prompt you for the sudo password of the user who will be escalating privileges.
-`--ask-vault-pass`  : this option will prompt you for the password to your vault where the encrypted passwords are stored.
+- `--ask-become-pass` : this option will prompt you for the sudo password of the user who will be escalating privileges.
+- `--ask-vault-pass`  : this option will prompt you for the password to your vault where the encrypted passwords are stored.
 
 If you replace the IP addresses in the inventory for a remote host you own, change the remote_user to a user on that machine with sudo privileges, edit your vars file inside the `group_vars/all/vars` to contain your desired new sudo user, and edit the vault to contain your desired passwords, you can execute the playbook with the above command and effect the changes on your remote machines!
 
 # Summary
 
-Ansible is an extremely powerful configuration, deployment, and provisioning tool that can automate your setups. I hope this tutorial has helped! There are many topics I was unable to cover but hopefully you now have a better understading of Ansible. Thanks for reading!
+Ansible is an extremely powerful configuration, deployment, and provisioning tool that can automate your server configuration. I hope this tutorial has helped get you started! There are many topics I was unable to cover but hopefully you now have a better understading of Ansible. 
+
+Thanks for visiting!
