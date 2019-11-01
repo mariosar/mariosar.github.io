@@ -16,7 +16,7 @@ API stands for Application Programming Interface. It is a defined *interface* fo
 
 #### Everything has an interface... 
 
-When you control your television via your remote control - *that is an interface*. An important part of interfacting with your TV is that you have absolutely no idea how it actually works inside. However, you do know that the power button will turn on the television, the volume buttons will increase or decrease the volume, the channel buttons will switch channels, etc. The implementation of how this is all handled internally is *abstracted* away. Only the actions and mechanisms that are important to the person handling the remote are shown, everything else is hidden from view.
+When you control your television via your remote control - *that is an interface*. An important part of interfacting with your TV is that you have absolutely no idea how it actually works inside. However, you do know that the power button will turn on the television, the volume buttons will increase or decrease the volume, the channel buttons will switch channels, etc. The implementation of how this is all handled internally is *abstracted* away. Only the actions and mechanisms that are important to the person handling the remote are shown. Everything else is hidden from view.
 
 <img src="/assets/images/car-dashboard.jpg">
 
@@ -24,7 +24,7 @@ Your car also has an interface in the form of a steering wheel, gas, clutch, bra
 
 *Back to APIs...*
 
-So an API or Application Programming Interface is a communication protocol between client and server. There is an implicit **contract** that if the client makes an HTTP request to the server in a certain format, it can expect the server to respond in a predictable manner.
+So an API or Application Programming Interface is a communication protocol between client and server. There is an implicit **contract** that if the client makes a request to the server in a certain format, it can expect the server to respond in a predictable manner.
 
 ## Web APIs
 
@@ -54,23 +54,23 @@ GET http://www.xyzcompany.com/api/widgets
 ```
 Let's break this endpoint down piece by piece:
 
-- Our HTTP request is using the GET method. There are several methods available to choose from in order to make a request. The most common are GET, POST, PUT, DELETE, but there are several others. The HTTP method used is how we communicate to the server the request's ***intention***.
+- Our HTTP request begins with the GET method. There are several methods available to choose from in order to make an HTTP request. The most common are GET, POST, PUT, DELETE, but there are several others. The HTTP method used is how we communicate to the server the request's ***intention***.
 
 - For APIs we can use either HTTP or HTTPS - the choice comes down to security. 
 
 - Next we have the domain name, which is the human-friendly address pointing to the server. 
 
-- Next, we have our URI starting with `/api`, this is a convention used that basically all the API endpoints should be nested within the `/api` path to distinguish them from normal web requests. Alternatively, we could have placed our API endpoints in a *subdomain* `api`.
+- Next, we have our URI starting with `/api`. This is a convention used that basically all the API endpoints should be nested within the `/api` path to distinguish them from normal Web requests. Alternatively, we could have placed our API endpoints in a *subdomain* `api.xyzcompany.com`.
 
 - Finally, we specify the *resource* we want to interact with, in this case `/widgets`.
 
-This is an endpoint that will retrieve *all the widgets* from the server. The server likely will return a JSON payload containing an array of widget objects.
+This is an endpoint that will retrieve *all the widgets* from the server. The server will likely return a JSON payload containing an array of widget objects.
 
 Let's look at common operations we may perform on a resource managed by a REST API.
 
 ## CRUD
 
-CRUD is an acronym meaning Create, Read, Update, Delete. It represents the most common operations you would perform on a resource.
+CRUD is an acronym meaning Create, Read, Update, and Delete. It represents the most common operations you would perform on a resource.
 
 In REST APIs, HTTP methods (GET, POST, PUT, DELETE) correspond to CRUD verbs.
 
@@ -113,6 +113,6 @@ Hopefully, you can decipher what each request is doing - that's precisely why RE
 
 # Summary
 
-REST defines a convention for communication allowing servers listening for HTTP requests to expose services and resources. Clients (or consumers) send requests following this convention, utilizing standard HTTP protocols, and perform operations on the resources exposed by the Web Service. The most common operations are CRUD operations - create, read, update, delete. Each of these operations corresponds to an HTTP method that conveys the intention of the request. The URI of the request specifies the resource being managed.
+REST defines a convention for communication allowing servers listening for HTTP requests to expose services and resources. Clients (or consumers) send requests following this convention, utilizing standard HTTP protocols, and perform operations on the resources exposed by the Web Service. The most common operations are CRUD operations - create, read, update, and delete. Each of these operations corresponds to an HTTP method that conveys the intention of the request. The URI of the request specifies the resource being managed.
 
 Hopefully by now you have a basic understanding of REST APIs from this blog post. Thank you for visiting!
