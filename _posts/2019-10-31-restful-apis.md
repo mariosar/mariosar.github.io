@@ -78,7 +78,7 @@ In REST APIs, HTTP methods (GET, POST, PUT, DELETE) correspond to CRUD verbs.
 | ------------- | ------------- |
 | POST  | Create  |
 | GET  | Read  |
-| PUT  | Update  |
+| PUT / PATCH  | Update  |
 | DELETE  | Delete  |
 
 *Returning to our example endpoint above...*
