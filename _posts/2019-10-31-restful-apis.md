@@ -81,6 +81,8 @@ In REST APIs, HTTP methods (GET, POST, PUT, DELETE) correspond to CRUD verbs.
 | PUT / PATCH  | Update  |
 | DELETE  | Delete  |
 
+**Quick Note:** There is an important distinction here that should be made between `PUT` vs `PATCH`. `PUT` implies a complete replacement of the URI resource. That means you are overriding what is existing in the server for the object you are sending - repeated calls to `PUT` with the same data are idempotent always since it is a *replacement*. PATCH implies a partial replacement. You are only sending the properties that are being changed on the resource, therefore it can be idempotent but is not guaranteed to be idempotent.
+
 *Returning to our example endpoint above...*
 
 Following this standard, we can define several **URI** and **HTTP method** pairs that perform these CRUD operations on a resource.
