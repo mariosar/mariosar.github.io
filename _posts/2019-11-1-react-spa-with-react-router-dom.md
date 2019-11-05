@@ -3,7 +3,7 @@ layout: post
 title: "React SPA with react-router-dom"
 category: 'React'
 description: "How to build a Single Page App with React."
-image: spa-react.jpg
+image: spa_react.jpg
 ---
 
 # React SPA with React Router

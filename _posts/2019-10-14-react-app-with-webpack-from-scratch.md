@@ -6,9 +6,9 @@ description: "Create a React App with Webpack from Scratch."
 image: react.jpeg
 ---
 
-# REACT APP Tutorial
+# React App tutorial using Webpack
 
-A React app created without create-react-app. This tutorial will take you through creating your own webpack.config.js to manage webpack, using loaders to transform ES6 and JSX syntax during bundling, 
+This is a *How To* tutorial on setting up a react app without using create-react-app. We will use Webpack for bundling and transpiling our JS. In this tutorial we will go over several dev dependencies you will need to add for your App to function and several optimizations for a production ready app. We will try to take you from knowing a little bit about React and Webpack, to being able to write your own webpack.config.js files to manage Webpack. Let's go to work!
 
 ## Getting Started
 
@@ -252,6 +252,19 @@ For small files it totally makes sense. No need to make unnecessary requests to 
 
 A handy fallback to `url-loader`. It will copy the image over to the output path and generate the correct url path so the image can be included in your app.
 
+##### [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)
+> This plugin allows you to add new "root" directories that contain your modules. It also allows you to setup a custom alias for directories, specific files, or even other npm modules.
+
+This handy plugin will allow you to avoid using relative paths in your imports. We'll be able to define custom aliases for directories to resolve our imports.
+
+We'll replace nasty relative path hell imports like this...
+
+`import mario from '../../public/images/super_mario.png';`
+
+And turn them into this...
+
+`import mario from 'images/super_mario.png';`
+
 ##### [DevTool - Source Maps](https://webpack.js.org/configuration/devtool/) 
 Not a loader, but a feature of webpack we should enable in development
 
@@ -427,6 +440,9 @@ const common = require('./webpack.common.js');
 module.exports = env => merge(common(env), {
   mode: 'development',
   devtool: 'eval-source-map',
+	devServer: {
+		historyApiFallback: true
+	}
 })
 
 ```
@@ -445,7 +461,8 @@ module.exports = env => {
       entry : './src/index.js',
       output : {
           path : path.resolve(__dirname , 'dist'),
-          filename: 'index_bundle.js'
+          filename: 'index_bundle.js',
+					publicPath: "/"
       },
       module : {
           rules : [
@@ -455,7 +472,15 @@ module.exports = env => {
                 use: {
                   loader: 'babel-loader',
                   options: {
-                    presets: ['@babel/preset-env', '@babel/preset-react']
+                    presets: ['@babel/preset-env', '@babel/preset-react'],
+										plugins: [
+                      ["module-resolver", {
+                        root: ["./src"],
+                        alias: {
+                          images: "./src/public/images"
+                        }
+                      }]
+                    ],
                   }
                 }
               },
