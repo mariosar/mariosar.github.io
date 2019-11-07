@@ -223,4 +223,9 @@ Very nice!
 
 In this tutorial we learned about linters. ESLint is a javascript linter that allows you to use custom rulesets. Linters are especially useful for work in groups because it ensures a consistent *style* throughout the codebase. `lint-staged` and `husky` are two packages that pair well and complement `eslint`, preventing bad code from being pushed and committed using hooks to intercept the git workflow.
 
+Some rulesets and configuration you may want to explore:
+
+- eslint-config-strongloop
+- eslint-config-airbnb
+
 Thank you for reading!
