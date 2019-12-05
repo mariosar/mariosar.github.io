@@ -8,15 +8,17 @@ image: authentication.jpg
 
 # Authentication
 
-Authentication is an important part of any application. We will go over some authentication methods. We will also explore common attacks, how they are deployed, and how your authentication architecture should mitigate to prevent these common attacks.
+Authentication is an important part of any application. We will go over some authentication schemes commonly used in web applications. The general purpose of this blog post is to introduce and clarify many concepts and ideas, hopefully in the process, providing a more fundamental understanding and command of the subject.
+
+In a future blog post, I will cover security considerations and common attacks that attempt to bypass authentication and gain access or otherwise do harm to an account. There is not one single best choice of authentication architecture and you will find there are many tradeoffs to consider.
 
 ## Authentication vs. Authorization
 
-We first should clarify the difference between authentication and authorization. Usually these terms are used interchangeably, but they mean different things.
+We first should clarify the difference between authentication and authorization - two oft confused terms, usually used interchangeably, but that mean different things.
 
-Authentication is an identity verification process. It is proving *who you are*. Usually we do this by providing our username and password to the server as proof that we are who we say we are. 
+Authentication is an identity verification process. It is proving *who you are*. Usually we do this by providing our username and password to the server as proof that we own a particular user account. 
 
-Authorization on the other hand only proves *right of access*. It is similar to a concert ticket. Anyone in possession of a concert ticket will be admitted - regardless of who they are. Another example would be a hotel room keycard. The keycard is programmed to authorize access to a particular room in a hotel. If you are in possession of the keycard, then you can enter the room - you are authorized. The keycard makes no distinction at all as to the *bearer* of the keycard. Presumably, when you checked in at the front desk, authenticated by *showing your ID*, and paid for the room, you were granted the keycard which authorizes you to access the room. However, anyone who is the bearer of the keycard can access the room - regardless of who initially checked in.
+Authorization on the other hand only proves *right of access*. A popular analogy would be a concert ticket. Anyone in possession of the ticket will be admitted to the show - regardless of who they are. Another example would be a hotel room keycard. The keycard is programmed to authorize access to a particular room in a hotel. If you are in possession of the keycard, then you can enter the room - you are authorized. The keycard makes no distinction at all as to the *bearer* of the keycard. Presumably, when you checked in at the front desk, authenticated by *showing your ID*, and paid for the room, you were granted the keycard which authorizes you to access the room. However, anyone who is the bearer of the keycard can access the room - regardless of who initially checked in.
 
 These two terms do not need to be used in a mutually exclusive fashion and you may implement a system that is doing both simultaneously. Imagine you're driving down a road and a police car stops you. Presenting your driver's license to the officer serves as both *proof of identity* and *proof of authorization*. The driver's license has your picture and name (identity) and says you are allowed to drive on the road (authorization).
 
@@ -24,13 +26,13 @@ It is good to keep in mind the distinction between these two terms as we proceed
 
 ## HTTP is a Stateless Protocol
 
-*HTTP is a stateless protocol* - you probably already know this fact, or at least have heard this before. It pays to delve into the meaning of this a little for the purpose of this article.
+You probably already know this fact, or at least have heard this before. It pays to delve into the meaning of this for the purpose of this article.
 
 HTTP is purely transactional. A request is made to the server for a resource and the server will respond. After the request response cycle is completed, there is nothing carried over to future requests. Although we can make several requests in succession, each request is self contained and independent of one another. There is nothing linking one request to another request.
 
-This is what is meant when we say HTTP is a ***stateless protocol***. From the point of view of the server, each request response cycle is independent of one another and there is nothing to link a series of requests made by the same client. As far as the server is concerned, those requests may as well have come from different clients altogether.
+This is what is meant when we say HTTP is a ***stateless protocol***. From the point of view of the server, each request response cycle is independent and there is nothing to link a series of requests made by the same client. As far as the server is concerned, those requests may as well have come from *different* clients altogether.
 
-If you have a static website this is all fine and good. There really is no reason at all to carry over information between requests. But many websites require special permissions to access *protected* resources within the website and for this to work we need to carry over some information *from one request to the next*.
+If you have just a static website, there really is no reason to carry information over from one request to the next. But if you have built a web application, then usually you will have some state representing the user interaction with the application which must be maintained between requests and available to both client and server.
 
 That is where sessions come in...
 
