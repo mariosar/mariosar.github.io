@@ -16,9 +16,9 @@ In a future blog post, I will cover security considerations and common attacks t
 
 We first should clarify the difference between authentication and authorization - two oft confused terms, usually used interchangeably, but that mean different things.
 
-Authentication is an identity verification process. It is proving *who you are*. Usually we do this by providing our username and password to the server as proof that we own a particular user account. 
+Authentication is ***an identity verification process***. It is proving *who you are*. Usually we do this by providing our username and password to the server as proof that we own a particular user account. 
 
-Authorization on the other hand only proves *right of access*. A popular analogy would be a concert ticket. Anyone in possession of the ticket will be admitted to the show - regardless of who they are. Another example would be a hotel room keycard. The keycard is programmed to authorize access to a particular room in a hotel. If you are in possession of the keycard, then you can enter the room - you are authorized. The keycard makes no distinction at all as to the *bearer* of the keycard. Presumably, when you checked in at the front desk, authenticated by *showing your ID*, and paid for the room, you were granted the keycard which authorizes you to access the room. However, anyone who is the bearer of the keycard can access the room - regardless of who initially checked in.
+Authorization, on the other hand, is ***a right to access***. A popular analogy would be a concert ticket. Anyone in possession of the ticket will be admitted to the show - regardless of who they are. Another example would be a hotel room keycard. The keycard is programmed to authorize access to a particular room in a hotel. If you are in possession of the keycard, then you can enter the room - you are authorized. The keycard makes no distinction at all as to the *bearer* of the keycard. Presumably, when you checked in at the front desk, authenticated by *showing your ID*, and paid for the room, you were granted the keycard which authorizes you to access the room. However, anyone who is the bearer of the keycard can access the room - regardless of who initially checked in.
 
 These two terms do not need to be used in a mutually exclusive fashion and you may implement a system that is doing both simultaneously. Imagine you're driving down a road and a police car stops you. Presenting your driver's license to the officer serves as both *proof of identity* and *proof of authorization*. The driver's license has your picture and name (identity) and says you are allowed to drive on the road (authorization).
 
@@ -28,11 +28,13 @@ It is good to keep in mind the distinction between these two terms as we proceed
 
 You probably already know this fact, or at least have heard this before. It pays to delve into the meaning of this for the purpose of this article.
 
-HTTP is purely transactional. A request is made to the server for a resource and the server will respond. After the request response cycle is completed, there is nothing carried over to future requests. Although we can make several requests in succession, each request is self contained and independent of one another. There is nothing linking one request to another request.
+HTTP is purely transactional. A request is made to the server for a resource and the server will respond. After the request response cycle is completed, there is nothing carried over to future requests. Although we can make several requests in succession, each request is self contained and independent of one another.
 
 This is what is meant when we say HTTP is a ***stateless protocol***. From the point of view of the server, each request response cycle is independent and there is nothing to link a series of requests made by the same client. As far as the server is concerned, those requests may as well have come from *different* clients altogether.
 
-If you have just a static website, there really is no reason to carry information over from one request to the next. But if you have built a web application, then usually you will have some state representing the user interaction with the application which must be maintained between requests and available to both client and server.
+If you have just a static website, there really is no reason to carry information over from one request to the next. There is no state of the user interaction with the website that needs to be maintained.
+
+In a web application, however, you do need some state representing the user interaction with the application which must be maintained between requests and available to both client and server. The challenge then becomes, how and where to store the ephemeral data representing the current state of interaction between a user and the application.
 
 That is where sessions come in...
 
@@ -46,9 +48,13 @@ This mechanism is what allows us, among other things, to enter our username and 
 
 ### *Why not use the IP Address?* ###
 
-When I was beginning my journey and education into writing web applications, one question I always had that no one ever explained very well is, "Why not use the IP address as a unique identifier for the user session?" I had always heard the IP address is unique for each device connected to the internet, so my brain thought, "Why doesn't the server keep the session object for each requesting IP address?" If you wondered the same thing, here is the problem with this approach and why we cannot reliably use IP addresses as session identifiers...
+When I was beginning my journey and education into writing web applications, one question I always had that no one ever explained very well is, "Why not use the IP address as a unique identifier for the user session?" I had always heard the IP address is unique for each device connected to the internet, so my brain thought, "Why doesn't the server keep the session object for each requesting IP address?" 
 
-Multiple devices connected to the same Wi-Fi network will *share the same public IP address*. The router, using a procedure called NAT, or Network Address Translation, knows how to relay responses to the originating computer that made the request inside the network. But to the outside world, all computers will share the *same public IP address*! Therefore, servers cannot reliably use the IP address to identify a client computer. If they did, then you might login to your internet banking and someone else in the same private network connected to the same router, could visit the same internet banking page, and having the same public IP address, they would both share the same session. Obviously, this would have disastrous consequences - especially if you're using public Wi-Fi at your local coffee shop!
+If you wondered the same thing, here is the problem with this approach and why we cannot reliably use IP addresses as session identifiers...
+
+Multiple devices connected to the same Wi-Fi network will *share the same public IP address*. The router, using a procedure called NAT, or Network Address Translation, knows how to relay responses to the originating computer that made the request inside the network. But to the outside world, all computers will share the *same public IP address*! 
+
+This means that servers cannot reliably use the IP address to identify a client computer. If they did, then you might login to your internet banking and someone else in the same private network connected to the same router, could visit the same internet banking page, and having the same public IP address, they would both share the same session. Obviously, this would have disastrous consequences - especially if you're using public Wi-Fi at your local coffee shop!
 
 ## Stateful vs Stateless
 
@@ -60,9 +66,9 @@ In **stateless** design, the entire session is sent to the browser. The server d
 
 In **stateful** design, the server actively manages and stores the session. The server will still need to send back a unique session identifier to the browser, which the client will send back on future requests. The session identifier will identify the client and act as a unique key to lookup the session object that the server has stored.
 
-Whichever approach is used, either stateful or stateless, some data is always stored on the browser - whether that be the entire session itself or just a session identifier. The key difference lies only on whether or not the server is involved in managing and saving the session.
+The key difference lies in whether or not the server is involved in managing and saving the session.
 
-Since the browser is involved, at the very least, in storing *the session identifier*, we need to talk about storage mechanisms available on the browser.
+Whichever approach is used, either stateful or stateless, *some data is always stored* on the browser - whether that be the entire session itself or just a session identifier.
 
 ## Browser Storage
 
