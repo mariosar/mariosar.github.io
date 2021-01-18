@@ -4,10 +4,14 @@ This project contains my personal website running on Jekyll static site generato
 
 ## Usage
 
-  npm run build
+  bundle install
+
+  yarn install
+
+  yarn run build
 
   bundle exec jekyll serve
 
 ## License
 
-  This contents and design of this website are copyrighted
+  The contents and design of this website are copyrighted

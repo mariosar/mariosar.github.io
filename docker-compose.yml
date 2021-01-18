@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+
+  mariosar:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        USER: mariosar
+    volumes:
+      - type: bind
+        source: ./
+        target: /opt/app/mariosar
+    ports:
+      - 4000:4000
